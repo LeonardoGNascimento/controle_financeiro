@@ -15,35 +15,35 @@ import { CadastrarUsuarioCommand } from 'src/usuario/dominio/command/cadastrarUs
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('usuario')
-@Controller('usuarios')
+@Controller('usuario')
 export class UsuarioController {
   constructor(private usuarioService: UsuarioService) {}
 
   @UseGuards(JwtGuard)
   @Post()
-  async cria(
+  cria(
     @Body() cadastrarUsuarioCommand: CadastrarUsuarioCommand,
   ): Promise<Usuario> {
-    return await this.usuarioService.cria(cadastrarUsuarioCommand);
+    return this.usuarioService.cria(cadastrarUsuarioCommand);
   }
 
   @Post('/login')
-  async login(@Body() loginCommand: LoginCommand) {
-    return await this.usuarioService.login(loginCommand);
+  login(@Body() loginCommand: LoginCommand) {
+    return this.usuarioService.login(loginCommand);
   }
 
   @Get()
-  async listar(): Promise<Usuario[]> {
-    return await this.usuarioService.listar();
+  listar(): Promise<Usuario[]> {
+    return this.usuarioService.listar();
   }
 
   @Get('/:id')
-  async buscar(@Param('id') id: number): Promise<Usuario> {
-    return await this.usuarioService.buscar(id);
+  buscar(@Param('id') id: number): Promise<Usuario> {
+    return this.usuarioService.buscar(id);
   }
 
   @Delete('/:id')
-  async excluir(@Param('id') id: number): Promise<any> {
-    return await this.usuarioService.excluir(id);
+  excluir(@Param('id') id: number): Promise<any> {
+    return this.usuarioService.excluir(id);
   }
 }

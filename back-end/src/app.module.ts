@@ -1,30 +1,25 @@
 import { Module } from '@nestjs/common';
-import { UsuarioModule } from './usuario/usuario.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Usuario } from './usuario/dominio/entity/usuario.entity';
-import { ServicoModule } from './servico/servico.module';
-import { Servico } from './servico/dominio/entity/servico.entity';
-import { ServicoModelo } from './servico/dominio/entity/servicoModelo.entity';
-import { Financeiro } from './financeiro/dominio/entity/financeiro.entity';
-import { FinanceiroDescricao } from './financeiro/dominio/entity/financeiroDescricao.entity';
 import { FinanceiroModule } from './financeiro/financeiro.module';
+import { ServicoModule } from './servico/servico.module';
+import { UsuarioModule } from './usuario/usuario.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      username: 'root',
-      password: '',
-      host: '127.0.0.1',
-      database: 'mecanica',
-      entities: [
-        Usuario,
-        Servico,
-        ServicoModelo,
-        Financeiro,
-        FinanceiroDescricao,
-      ],
-      synchronize: true,
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        type: 'mysql',
+        username: configService.get('DB_USER'),
+        password: configService.get('DB_PASSWORD'),
+        host: configService.get('DB_HOST'),
+        database: configService.get('DB_DATABASE'),
+        entities: ['dist/**/*.entity{.ts,.js}'],
+        synchronize: true,
+      }),
+      inject: [ConfigService],
     }),
     UsuarioModule,
     ServicoModule,

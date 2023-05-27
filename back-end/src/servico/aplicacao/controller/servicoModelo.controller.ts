@@ -12,19 +12,19 @@ export class ServiceModeloController {
   constructor(private servicoModeloService: ServicoModeloService) {}
 
   @Post()
-  async cadastro(
+  cadastro(
     @Body() criaServicoModeloCommand: CriaServicoModeloCommand,
   ): Promise<ServicoModelo> {
-    return await this.servicoModeloService.cadastro(criaServicoModeloCommand);
+    return this.servicoModeloService.cadastro(criaServicoModeloCommand);
   }
 
   @Get()
-  async listar(): Promise<ServicoModelo[]> {
-    return await this.servicoModeloService.listar();
+  listar(): Promise<ServicoModelo[]> {
+    return this.servicoModeloService.listar();
   }
 
   @Get('/:id')
-  async buscar(@Param('id') id: number): Promise<ServicoModelo> {
-    return await this.servicoModeloService.buscar(id);
+  buscar(@Param('id') id: number): Promise<ServicoModelo> {
+    return this.servicoModeloService.buscar(id);
   }
 }

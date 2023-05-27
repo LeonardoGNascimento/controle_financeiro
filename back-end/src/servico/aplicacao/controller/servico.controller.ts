@@ -23,39 +23,37 @@ export class ServiceController {
   constructor(private servicoService: ServicoService) {}
 
   @Post()
-  async cadastro(
-    @Body() criaServicoCommand: CriaServicoCommand,
-  ): Promise<Servico> {
-    return await this.servicoService.cadastro(criaServicoCommand);
+  cadastro(@Body() criaServicoCommand: CriaServicoCommand): Promise<Servico> {
+    return this.servicoService.cadastro(criaServicoCommand);
   }
 
   @Get()
-  async listar(
+  listar(
     @Query() listarServicoCommand: ListarServicoCommand,
   ): Promise<Servico[]> {
-    return await this.servicoService.listar(listarServicoCommand);
+    return this.servicoService.listar(listarServicoCommand);
   }
 
   // @Get('/garantia/:id')
   // @Header('content-type', 'application/pdf')
-  // async garantia(@Param('id') id: number, @Res() res: Response) {
-  //   const pdf = await this.servicoService.garantia(id);
+  //  garantia(@Param('id') id: number, @Res() res: Response) {
+  //   const pdf =  this.servicoService.garantia(id);
 
   //   new StreamBuffer(pdf).pipe(res);
   // }
 
   @Get('/:id')
-  async buscar(@Param('id') id: number): Promise<Servico> {
-    return await this.servicoService.buscar(id);
+  buscar(@Param('id') id: number): Promise<Servico> {
+    return this.servicoService.buscar(id);
   }
 
   @Patch('/:id/exclui')
-  async excluir(@Param('id') id: number) {
-    return await this.servicoService.excluir(id);
+  excluir(@Param('id') id: number) {
+    return this.servicoService.excluir(id);
   }
 
   @Patch('/:id/finaliza')
-  async finalizar(@Param('id') id: number) {
-    return await this.servicoService.finalizar(id);
+  finalizar(@Param('id') id: number) {
+    return this.servicoService.finalizar(id);
   }
 }

@@ -13,12 +13,14 @@ async function bootstrap() {
     }),
   );
 
-  const document = SwaggerModule.createDocument(
+  SwaggerModule.setup(
+    'api',
     app,
-    new DocumentBuilder().addBearerAuth().build(),
+    SwaggerModule.createDocument(
+      app,
+      new DocumentBuilder().addBearerAuth().build(),
+    ),
   );
-
-  SwaggerModule.setup('api', app, document);
 
   await app.listen(3000);
 }
