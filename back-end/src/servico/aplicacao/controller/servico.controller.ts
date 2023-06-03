@@ -6,6 +6,7 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { JwtGuard } from 'src/core/auth/jwt.auth.guard';
@@ -18,13 +19,19 @@ import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 @ApiTags('servico')
 @Controller('servico')
 @ApiSecurity('bearer')
-@UseGuards(JwtGuard)
+// @UseGuards(JwtGuard)
 export class ServiceController {
   constructor(private servicoService: ServicoService) {}
 
   @Post()
-  cadastro(@Body() criaServicoCommand: CriaServicoCommand): Promise<Servico> {
-    return this.servicoService.cadastro(criaServicoCommand);
+  cadastro(
+    @Req() { user },
+    @Body() criaServicoCommand: CriaServicoCommand,
+  ): Promise<Servico> {
+    return this.servicoService.cadastro({
+      ...criaServicoCommand,
+      usuario: user,
+    });
   }
 
   @Get()

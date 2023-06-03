@@ -1,7 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber } from 'class-validator';
-import { Usuario } from 'src/usuario/dominio/entity/usuario.entity';
-import { FinanceiroDescricao } from '../entity/financeiroDescricao.entity';
 
 export class CadastrarFinanceiroCommand {
   @ApiProperty()
@@ -13,6 +11,6 @@ export class CadastrarFinanceiroCommand {
   @IsNumber({}, { message: 'financeiroDescricaoId deve inteiro' })
   financeiroDescricaoId: number;
 
-  // financeiroDescricao: FinanceiroDescricao;
+  servicoId: number;
   usuarioId: number;
 }

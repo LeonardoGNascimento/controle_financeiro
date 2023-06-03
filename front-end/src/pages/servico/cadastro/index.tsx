@@ -1,20 +1,19 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
-import { Button, Col, Form, FormLabel, Row } from "react-bootstrap";
-import { Input } from "../../../componets/input";
-import { Tela } from "../../../componets/menu/style";
-import { Pagina } from "../../../componets/tela";
 import { useEffect } from "react";
+import { Button, Col, Form, FormLabel, Row } from "react-bootstrap";
+import { useForm } from "react-hook-form";
+import InputMask from "react-input-mask";
+import { toast } from "react-toastify";
+import { Input } from "../../../componets/input";
+import { Pagina } from "../../../componets/tela";
+import { useServico } from "../../../hooks/servico/useServico";
 import {
   ICadastroServico,
   ICadastroServicoModelo,
   schema,
   schemaModelo,
 } from "./yup/schema";
-import { useServico } from "../../../hooks/servico/useServico";
-import CurrencyInput from "react-currency-input-field";
-import InputMask from "react-input-mask";
-import { toast } from "react-toastify";
+import { Tela } from "../../../componets/menu/tela";
 
 export function CadastrarServico() {
   const {
@@ -43,23 +42,18 @@ export function CadastrarServico() {
   const handleServico = async ({
     clienteNome,
     clienteNumero,
-    imei,
-    orcamento,
     servicoModeloId,
-    modelo,
+    placa,
+    veiculoModelo,
   }: ICadastroServico) => {
+    console.log(servicoModeloId);
+
     const { data, hasErro } = await cadastro({
       clienteNome,
       clienteNumero,
-      imei,
-      orcamento: Number(
-        String(orcamento)
-          .replace(/[R$ ]/g, "")
-          .replace(/[.]/g, "")
-          .replace(/[,]/g, ".")
-      ),
+      placa,
       servicoModeloId: Number(servicoModeloId),
-      modelo,
+      veiculoModelo,
     });
 
     if (hasErro) {
@@ -106,22 +100,6 @@ export function CadastrarServico() {
                   </Form.Group>
                 </Input>
               </Col>
-              <Col>
-                <Form.Group>
-                  <Input error={errors.orcamento?.message}>
-                    <FormLabel>Orçamento</FormLabel>
-                    <CurrencyInput
-                      id="input-example"
-                      className="form-control"
-                      placeholder="Please enter a number"
-                      defaultValue={0}
-                      decimalsLimit={2}
-                      {...register("orcamento")}
-                      prefix="R$ "
-                    />
-                  </Input>
-                </Form.Group>
-              </Col>
             </Row>
             <Row className="mt-3">
               <Col>
@@ -152,24 +130,26 @@ export function CadastrarServico() {
               </Col>
               <Col>
                 <Form.Group>
-                  <Input error={""}>
-                    <FormLabel>IMEI</FormLabel>
+                  <Input error={errors.veiculoModelo?.message}>
+                    <FormLabel>Modelo</FormLabel>
                     <Form.Control
-                      type="number"
-                      placeholder="Insira IMEI"
-                      {...register("imei")}
+                      type="text"
+                      placeholder="Insira o modelo"
+                      {...register("veiculoModelo")}
                     />
                   </Input>
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Group>
-                  <Input error={""}>
-                    <FormLabel>Modelo</FormLabel>
+                  <Input error={errors.placa?.message}>
+                    <FormLabel>Placa</FormLabel>
                     <Form.Control
+                      as={InputMask}
                       type="text"
-                      placeholder="Insira o modelo"
-                      {...register("modelo")}
+                      placeholder="Insira a placa"
+                      mask="aaa9*99"
+                      {...register("placa")}
                     />
                   </Input>
                 </Form.Group>

@@ -13,6 +13,8 @@ export function useServico() {
   const { setErro } = useErro();
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [servicos, setServicos] = useState<IServico[]>([]);
+  const [servico, setServico] = useState<IServico>();
   const [servicosModelo, setServicosModelo] = useState<IServicoModelo[]>([]);
 
   async function listar(query: string = "") {
@@ -20,7 +22,7 @@ export function useServico() {
       setLoading(true);
       const { data } = await api.get(`/servico/?${query}`);
 
-      return data;
+      setServicos(data);
     } catch (error: any) {
       setErro(
         error.response.data.message
@@ -95,7 +97,7 @@ export function useServico() {
         `/servico/${id}?cliente=true&servicoModelo=true&celular=true`
       );
 
-      return data;
+      setServico(data);
     } catch (error: any) {
       setErro(
         error.response.data.message
@@ -158,5 +160,7 @@ export function useServico() {
     finalizar,
     cadastroModelo,
     excluir,
+    servicos,
+    servico,
   };
 }

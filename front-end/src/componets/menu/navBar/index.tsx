@@ -17,7 +17,7 @@ export function NavBar({ setColapsed, colapsed, nome }: Props) {
           {!colapsed ? <FaAngleLeft /> : <FaAngleRight />}
         </ButtonColapse>
         <Container>
-          <Navbar.Brand>UTI do Celular</Navbar.Brand>
+          <Navbar.Brand>Garagem 714</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           Olá, {nome}
         </Container>

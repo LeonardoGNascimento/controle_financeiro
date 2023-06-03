@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Private } from "./core/privateRoutes";
-import { ServicoRoute } from "./pages/servico/route";
-import { Home } from "./pages/home";
-import { Login } from "./pages/login";
-import { UsuarioRoute } from "./pages/usuario/routes";
+import { Private } from "../core/privateRoute";
+import { ServicoRoute } from "../pages/servico/route";
+import { Home } from "../pages/home";
+import { Login } from "../pages/login";
+import { UsuarioRoute } from "../pages/usuario/routes";
 
 export function AppRouter() {
   return (

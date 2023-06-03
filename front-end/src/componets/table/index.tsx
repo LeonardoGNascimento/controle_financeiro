@@ -1,14 +1,23 @@
 import DataTable from "react-data-table-component";
 import { Container } from "./style";
 
-interface Props {
-  columns: any[];
-  data: any[];
+class Props {
+  columns: any[] = [];
+  data: any[] = [];
   pagination?: boolean;
   noDataComponent?: string;
+  paginationRowsPerPageOptions?: number[];
+  paginationPerPage?: number = 50;
 }
 
-export function Table({ columns, data, pagination, noDataComponent }: Props) {
+export function Table({
+  columns,
+  data,
+  pagination,
+  noDataComponent,
+  paginationRowsPerPageOptions,
+  paginationPerPage
+}: Props) {
   const customStyles = {
     rows: {
       style: {
@@ -25,7 +34,9 @@ export function Table({ columns, data, pagination, noDataComponent }: Props) {
       <DataTable
         columns={columns}
         data={data}
-        pagination={pagination}
+        pagination
+        paginationPerPage={paginationPerPage}
+        paginationRowsPerPageOptions={paginationRowsPerPageOptions}
         customStyles={customStyles}
         responsive={true}
         noDataComponent={noDataComponent}

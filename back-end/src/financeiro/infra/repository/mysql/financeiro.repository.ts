@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { log } from 'console';
 import { CadastrarFinanceiroCommand } from 'src/financeiro/dominio/command/cadastrarFinanceiro.command';
 import { Financeiro } from 'src/financeiro/dominio/entity/financeiro.entity';
 import { FinanceiroDescricao } from 'src/financeiro/dominio/entity/financeiroDescricao.entity';
@@ -12,9 +13,17 @@ export class FinanceiroRepository {
     private financeiroRepository: Repository<Financeiro>,
   ) {}
 
-  async listar(): Promise<Financeiro[] | false> {
+  async listar(id: number): Promise<Financeiro[] | false> {
     try {
-      const resultado = await this.financeiroRepository.find();
+      const queryBuild = this.financeiroRepository
+        .createQueryBuilder('financeiro')
+        .leftJoinAndSelect(
+          'financeiro.financeiroDescricao',
+          'financeiroDescricao',
+        )
+        .where('financeiro.servicoId = :id', { id });
+
+      const resultado = await queryBuild.getMany();
 
       if (resultado.length <= 0) {
         return false;
@@ -30,6 +39,7 @@ export class FinanceiroRepository {
     financeiroDescricaoId,
     usuarioId,
     valor,
+    servicoId,
   }: CadastrarFinanceiroCommand): Promise<Financeiro | false> {
     try {
       const resultado = await this.financeiroRepository.save({
@@ -39,6 +49,9 @@ export class FinanceiroRepository {
         },
         financeiroDescricao: {
           id: financeiroDescricaoId,
+        },
+        servico: {
+          id: servicoId,
         },
       });
 

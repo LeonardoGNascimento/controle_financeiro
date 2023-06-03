@@ -18,21 +18,27 @@ export class ServiceRepository {
     excluido,
   }: ListarServicoCommand): Promise<false | Servico[]> {
     try {
-      const queryBuild = this.servicoRepository.createQueryBuilder();
+      const queryBuild = this.servicoRepository.createQueryBuilder('servico');
+
+      if (true) {
+        queryBuild.leftJoinAndSelect('servico.usuario', 'usuario');
+        queryBuild.leftJoinAndSelect('servico.servicoModelo', 'servicoModelo');
+      }
 
       if (finalizado) {
         const finalizadoStrategy = {
-          false: () => queryBuild.andWhere('finalizado IS NULL'),
-          true: () => queryBuild.andWhere('finalizado IS NOT NULL'),
+          false: () => queryBuild.andWhere('servico.finalizado IS NULL'),
+          true: () => queryBuild.andWhere('servico.finalizado IS NOT NULL'),
         };
 
         finalizadoStrategy[finalizado]();
       }
 
-      const resultado = await queryBuild
-        .andWhere('excluido = :excluido', { excluido })
-        .orderBy('dataHora', 'DESC')
-        .getMany();
+      if ([0, 1].includes(excluido)) {
+        queryBuild.andWhere('servico.excluido = :excluido', { excluido });
+      }
+
+      const resultado = await queryBuild.getMany();
 
       if (resultado.length <= 0) {
         return false;
@@ -47,11 +53,12 @@ export class ServiceRepository {
   async buscar(id: number): Promise<Servico | false> {
     try {
       const resultado = await this.servicoRepository
-        .createQueryBuilder()
+        .createQueryBuilder('servico')
         .where({
           id,
           excluido: 0,
         })
+        .leftJoinAndSelect('servico.servicoModelo', 'servicoModelo')
         .getOne();
 
       if (!resultado) {
@@ -69,14 +76,19 @@ export class ServiceRepository {
     clienteNumero,
     servicoModeloId,
     placa,
+    veiculoModelo,
+    usuario,
   }: CriaServicoCommand) {
     try {
       return await this.servicoRepository.save({
         clienteNome,
         clienteNumero,
-        servicoModeloId,
+        usuario,
+        servicoModelo: {
+          id: servicoModeloId,
+        },
         placa,
-        dataHora: new Date(),
+        veiculoModelo,
       });
     } catch (error) {
       return false;

@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { Context, createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HttpResponse } from "../../../core/httpResponse";
 import { useErro } from "../../../hooks/erro/useErro";
 import api from "../../../_service/api/api";
 
-export function useLogin() {
+function useLogin() {
   const { setErro } = useErro();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
@@ -12,7 +12,7 @@ export function useLogin() {
   async function logar(email: string, senha: string) {
     try {
       setLoading(true);
-      const { data } = await api.post("/usuarios/login", {
+      const { data } = await api.post("/auth/", {
         email,
         senha,
       });
@@ -39,3 +39,5 @@ export function useLogin() {
     loading,
   };
 }
+
+export { useLogin };

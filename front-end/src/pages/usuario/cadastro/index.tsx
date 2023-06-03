@@ -5,7 +5,7 @@ import { TableColumn } from "react-data-table-component";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Input } from "../../../componets/input";
-import { Tela } from "../../../componets/menu/style";
+import { Tela } from "../../../componets/menu/tela";
 import { Table } from "../../../componets/table";
 import { Pagina } from "../../../componets/tela";
 import { IUsuario } from "../../../hooks/usuario/interface/IUsuario";

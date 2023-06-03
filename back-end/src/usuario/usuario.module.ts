@@ -6,6 +6,7 @@ import { UsuarioService } from './aplicacao/services/usuario.service';
 import { UsuarioRepository } from './infra/repository/mysql/usuario.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Usuario } from './dominio/entity/usuario.entity';
+import { AuthController } from './aplicacao/controllers/auth.controller';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { Usuario } from './dominio/entity/usuario.entity';
       signOptions: { expiresIn: '8h' },
     }),
   ],
-  controllers: [UsuarioController],
+  controllers: [UsuarioController, AuthController],
   providers: [UsuarioService, UsuarioRepository, JwtStrategy],
 })
 export class UsuarioModule {}

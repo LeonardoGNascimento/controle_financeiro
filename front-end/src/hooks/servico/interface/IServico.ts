@@ -1,3 +1,4 @@
+import { IUsuario } from "../../usuario/interface/IUsuario";
 import { IServicoModelo } from "./IServicoModelo";
 
 export interface IServico {
@@ -5,12 +6,11 @@ export interface IServico {
   dataHora: Date;
   clienteNome: string;
   clienteNumero: string;
-  imei: string;
-  modelo?: string;
-  servicoModeloId: number;
-  orcamento: number;
+  placa: string;
+  veiculoModelo: string;
   finalizado?: Date;
-  tipoPagamento?: string;
-
+  excluido: number;
+  usuario: IUsuario;
+  servicoModeloId: number;
   servicoModelo?: IServicoModelo;
 }

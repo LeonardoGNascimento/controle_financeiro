@@ -1,6 +1,14 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ServicoModelo } from './servicoModelo.entity';
 import { Usuario } from 'src/usuario/dominio/entity/usuario.entity';
+import { Financeiro } from 'src/financeiro/dominio/entity/financeiro.entity';
 
 @Entity()
 export class Servico {
@@ -19,11 +27,17 @@ export class Servico {
   @Column({ type: 'varchar' })
   placa: string;
 
+  @Column({ type: 'varchar' })
+  veiculoModelo: string;
+
   @Column({ type: 'datetime', default: null })
   finalizado?: Date;
 
   @Column({ type: 'tinyint' })
   excluido: number;
+
+  @OneToMany(() => Financeiro, (Financeiro) => Financeiro.servico)
+  financeiro: [];
 
   @ManyToOne(() => ServicoModelo, (servicoModelo) => servicoModelo.servicos)
   servicoModelo: ServicoModelo;

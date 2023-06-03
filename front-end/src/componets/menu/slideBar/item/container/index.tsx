@@ -4,14 +4,8 @@ import { Link } from "react-router-dom";
 export function ServicoItem() {
   return (
     <>
-      <MenuItem>
-        Listagem
-        <Link to="/servico/lista" />
-      </MenuItem>
-      <MenuItem>
-        Cadastro
-        <Link to="/servico/cadastra" />
-      </MenuItem>
+      <MenuItem component={<Link to="/servico/lista" />}>Listagem</MenuItem>
+      <MenuItem component={<Link to="/servico/cadastra" />}>Cadastro</MenuItem>
     </>
   );
 }
@@ -19,14 +13,8 @@ export function ServicoItem() {
 export function ConfiguracaoItem() {
   return (
     <>
-      <MenuItem>
-        Raça
-        <Link to="/configuracao/raca" />
-      </MenuItem>
-      <MenuItem>
-        Tipo
-        <Link to="/configuracao/tipo" />
-      </MenuItem>
+      <MenuItem component={<Link to="/configuracao/raca" />}>Raça</MenuItem>
+      <MenuItem component={<Link to="/configuracao/tipo" />}>Tipo</MenuItem>
     </>
   );
 }
@@ -34,10 +22,7 @@ export function ConfiguracaoItem() {
 export function UsuarioItem() {
   return (
     <>
-      <MenuItem>
-        Cadastro
-        <Link to="/usuario/cadastra" />
-      </MenuItem>
+      <MenuItem component={<Link to="/usuario/cadastra" />}>Cadastro</MenuItem>
     </>
   );
 }

@@ -1,11 +1,13 @@
+import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
+import { Link } from "react-router-dom";
+import { ServicoItem, UsuarioItem } from "./item/container";
 import {
-  Menu,
-  MenuItem,
-  SidebarContent,
-  SidebarFooter,
-} from "react-pro-sidebar";
-import { Item } from "./item";
-import { ProSidebarCustom, SlideBarContainer } from "./style";
+  BsFillCarFrontFill,
+  BsFillPeopleFill,
+  BsReverseLayoutTextWindowReverse,
+  BsX,
+} from "react-icons/bs";
+
 interface Props {
   colapsed: boolean;
   logout: any;
@@ -13,19 +15,24 @@ interface Props {
 
 export function SlideBar({ colapsed, logout }: Props) {
   return (
-    <SlideBarContainer>
-      <ProSidebarCustom collapsed={colapsed}>
-        <SidebarContent>
-          <Menu iconShape="square">
-            <Item />
-          </Menu>
-        </SidebarContent>
-        <SidebarFooter>
-          <Menu>
-            <MenuItem onClick={logout}>Sair</MenuItem>
-          </Menu>
-        </SidebarFooter>
-      </ProSidebarCustom>
-    </SlideBarContainer>
+    <Sidebar collapsed={colapsed} className="h-screen">
+      <Menu>
+        <MenuItem
+          component={<Link to="/home" />}
+          icon={<BsReverseLayoutTextWindowReverse />}
+        >
+          Dashboard
+        </MenuItem>
+        <SubMenu label="Serviço" icon={<BsFillCarFrontFill />}>
+          <ServicoItem />
+        </SubMenu>
+        <SubMenu label="Usuario" icon={<BsFillPeopleFill />}>
+          <UsuarioItem />
+        </SubMenu>
+        <MenuItem onClick={logout} icon={<BsX />}>
+          Sair
+        </MenuItem>
+      </Menu>
+    </Sidebar>
   );
 }

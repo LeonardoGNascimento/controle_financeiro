@@ -4,12 +4,11 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { ListarServicoCommand } from '../../dominio/command/listarServico.command';
-import { CriaServicoCommand } from '../../dominio/command/criaServico.command';
-import { AtualizarServicoCommand } from '../../dominio/command/atualizarServico.command';
-import { FinalizarServicoCommand } from '../../dominio/command/finalizarServico.command';
-import { ServiceRepository } from 'src/servico/infra/repository/mySql/servico.repository';
 import { Servico } from 'src/servico/dominio/entity/servico.entity';
+import { ServiceRepository } from 'src/servico/infra/repository/mySql/servico.repository';
+import { AtualizarServicoCommand } from '../../dominio/command/atualizarServico.command';
+import { CriaServicoCommand } from '../../dominio/command/criaServico.command';
+import { ListarServicoCommand } from '../../dominio/command/listarServico.command';
 
 @Injectable()
 export class ServicoService {

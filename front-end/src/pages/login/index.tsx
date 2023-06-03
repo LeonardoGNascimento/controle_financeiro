@@ -1,22 +1,15 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Col, Form, Row } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import loginImg from "../../assets/img/login.jpg";
 import { Input } from "../../componets/input";
 import { Submit } from "../../componets/submit";
+import { Container } from "./components/container";
 import { useLogin } from "./hook/useLogin";
-import {
-  BotaoLogin,
-  ContainerBotaoLogar,
-  Div,
-  Image,
-  LoginContainer,
-  LoginModal,
-  Titulo,
-} from "./style";
 import { ILogin, schema } from "./yup/schema";
-import teste from "../../assets/img/login.jpg";
+import { Usuario } from "../../_service/localStore/localStore";
 
 export function Login() {
   const { logar, loading } = useLogin();
@@ -37,53 +30,46 @@ export function Login() {
       return toast.error(data.message);
     }
 
-    localStorage.setItem("@token", data.access_token);
-    localStorage.setItem("@email", email);
-    localStorage.setItem("@nome", data.nome);
+    Usuario.setId(data.id);
+    Usuario.setToken(data.access_token);
+    Usuario.setNome(data.nome);
+
     navigate("/home");
   }
 
   return (
-    <LoginContainer>
-      <LoginModal>
-        <Row>
-          <Col>
-            <Image src={teste} />
-          </Col>
-          <Col>
-            <Div>
-              <div>
-                <Titulo>UTI do Celular</Titulo>
-                <Form onSubmit={handleSubmit(handleLogin)}>
-                  <Form.Group controlId="email">
-                    <Input error={errors.email?.message}>
-                      <Form.Control
-                        type="email"
-                        placeholder="Insira seu e-mail"
-                        {...register("email")}
-                      />
-                    </Input>
-                  </Form.Group>
-                  <Form.Group controlId="senha">
-                    <Input error={errors.senha?.message}>
-                      <Form.Control
-                        type="password"
-                        placeholder="Insira sua senha"
-                        {...register("senha")}
-                      />
-                    </Input>
-                  </Form.Group>
-                  <ContainerBotaoLogar>
-                    <Submit loading={loading}>
-                      <BotaoLogin type="submit">Entrar</BotaoLogin>
-                    </Submit>
-                  </ContainerBotaoLogar>
-                </Form>
-              </div>
-            </Div>
-          </Col>
-        </Row>
-      </LoginModal>
-    </LoginContainer>
+    <Container>
+      <div>
+        <img className="w-full rounded-l-lg" src={loginImg} />
+      </div>
+      <div className="bg-gray-400 p-8 rounded-r -lg">
+        <h1 className="flex justify-center mb-12 text-white">Garagem 714</h1>
+        <Form onSubmit={handleSubmit(handleLogin)}>
+          <Form.Group controlId="email">
+            <Input error={errors.email?.message}>
+              <Form.Control
+                type="email"
+                placeholder="Insira seu e-mail"
+                {...register("email")}
+              />
+            </Input>
+          </Form.Group>
+          <Form.Group controlId="senha">
+            <Input error={errors.senha?.message}>
+              <Form.Control
+                type="password"
+                placeholder="Insira sua senha"
+                {...register("senha")}
+              />
+            </Input>
+          </Form.Group>
+          <div className="flex justify-center">
+            <Submit loading={loading}>
+              <Button type="submit">Entrar</Button>
+            </Submit>
+          </div>
+        </Form>
+      </div>
+    </Container>
   );
 }

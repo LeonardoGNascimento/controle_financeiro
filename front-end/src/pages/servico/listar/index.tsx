@@ -1,30 +1,17 @@
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { TableColumn } from "react-data-table-component";
-import { Tela } from "../../../componets/menu/style";
+import { Tela } from "../../../componets/menu/tela";
 import { Table } from "../../../componets/table";
 import { Pagina } from "../../../componets/tela";
-import { IServico } from "../../../hooks/servico/interface/IServico";
 import { useServico } from "../../../hooks/servico/useServico";
 
 export function Listar() {
-  const { listar } = useServico();
-
-  const [servicos, setServicos] = useState<IServico[]>([]);
+  const { listar, servicos } = useServico();
 
   useEffect(() => {
-    const listarServicos = async () => {
-      const servicosData: IServico[] = await listar(
-        "servicoModelo=true&excluido=0"
-      );
-
-      if (servicosData) {
-        setServicos(servicosData);
-      }
-    };
-
-    listarServicos();
+    listar();
   }, []);
 
   const columns: TableColumn<any>[] = [
@@ -46,20 +33,20 @@ export function Listar() {
     },
     {
       name: "Finalizado",
-      selector: ({ finalizado }) => {
-        const final = finalizado
-          ? moment(finalizado).format("DD/MM/YYYY HH:mm:ss")
-          : "Não";
-
-        return final;
-      },
+      selector: ({ finalizado }) =>
+        finalizado ? moment(finalizado).format("DD/MM/YYYY HH:mm:ss") : "Não",
+      sortable: true,
+    },
+    {
+      name: "Usuário",
+      selector: ({ usuario }) => (usuario ? usuario.nome : "-"),
       sortable: true,
     },
     {
       name: "#",
-      selector: ({ id }) => {
-        return <Button href={`/servico/detalhes/${id}`}>Detalhes</Button>;
-      },
+      selector: ({ id }) => (
+        <Button href={`/servico/detalhes/${id}`}>Detalhes</Button>
+      ),
       sortable: true,
     },
   ];

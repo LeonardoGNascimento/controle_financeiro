@@ -8,6 +8,7 @@ import { FinanceiroDescricaoRepository } from './infra/repository/mysql/financei
 import { FinanceiroController } from './aplicacao/controller/financeiro.controller';
 import { FinanceiroService } from './aplicacao/service/financeiro.service';
 import { FinanceiroRepository } from './infra/repository/mysql/financeiro.repository';
+import { DocumentoService } from 'src/core/documentos/documento.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([FinanceiroDescricao, Financeiro])],
@@ -17,6 +18,7 @@ import { FinanceiroRepository } from './infra/repository/mysql/financeiro.reposi
     FinanceiroDescricaoRepository,
     FinanceiroService,
     FinanceiroRepository,
+    DocumentoService
   ],
 })
 export class FinanceiroModule {}

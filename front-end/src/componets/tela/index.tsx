@@ -5,15 +5,11 @@ interface Props {
 }
 
 export function Pagina({ children, titulo, subTitulo }: Props) {
-  const style = {
-    fontSize: 24,
-  };
-
   if (titulo && subTitulo) {
     return (
       <>
         <p>
-          {subTitulo} - <span style={style}>{titulo}</span>
+          {subTitulo} - <span className="text-2xl">{titulo}</span>
         </p>
         <hr />
         <div>{children}</div>
@@ -24,7 +20,7 @@ export function Pagina({ children, titulo, subTitulo }: Props) {
   return (
     <>
       <p>
-        <span style={style}>{titulo}</span>
+        <span className="text-2xl">{titulo}</span>
       </p>
       <hr />
       <div>{children}</div>

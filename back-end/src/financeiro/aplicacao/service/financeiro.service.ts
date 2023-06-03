@@ -8,16 +8,19 @@ import { CadastrarFinanceiroCommand } from 'src/financeiro/dominio/command/cadas
 import { Financeiro } from 'src/financeiro/dominio/entity/financeiro.entity';
 import { FinanceiroRepository } from 'src/financeiro/infra/repository/mysql/financeiro.repository';
 import { FinanceiroDescricaoService } from './financeiroDescricao.service';
+import { log } from 'console';
+import { DocumentoService } from 'src/core/documentos/documento.service';
 
 @Injectable()
 export class FinanceiroService {
   constructor(
     public financeiroRepository: FinanceiroRepository,
     public financeiroDescricaoService: FinanceiroDescricaoService,
+    public documentoService: DocumentoService,
   ) {}
 
-  async listar(): Promise<Financeiro[]> {
-    const resultado = await this.financeiroRepository.listar();
+  async listar(id: number): Promise<Financeiro[]> {
+    const resultado = await this.financeiroRepository.listar(id);
 
     if (!resultado) {
       throw new NotFoundException('Financeiro não encontrado');
@@ -26,10 +29,34 @@ export class FinanceiroService {
     return resultado;
   }
 
+  async comanda(id: number): Promise<Buffer> {
+    const dados = await this.listar(id);
+    const total = Intl.NumberFormat('pt-br', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(dados.map((item) => Number(item.valor)).reduce((i, c) => i + c));
+
+    const resultado = dados.map((item) => ({
+      valor: Intl.NumberFormat('pt-br', {
+        style: 'currency',
+        currency: 'BRL',
+      }).format(Number(item.valor)),
+      financeiroDescricao: {
+        descricao: item.financeiroDescricao.descricao,
+      },
+    }));
+
+    return await this.documentoService.gerarDocumento(
+      { dados: resultado, total },
+      './src/core/template/comanda.hbs',
+    );
+  }
+
   async cadastrar({
     financeiroDescricaoId,
     usuarioId,
     valor,
+    servicoId,
   }: CadastrarFinanceiroCommand): Promise<Financeiro> {
     try {
       await this.financeiroDescricaoService.buscar(financeiroDescricaoId);
@@ -38,6 +65,7 @@ export class FinanceiroService {
         financeiroDescricaoId,
         usuarioId,
         valor,
+        servicoId,
       });
 
       if (!resultado) {
