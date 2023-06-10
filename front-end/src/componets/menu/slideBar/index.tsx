@@ -1,21 +1,27 @@
-import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
-import { Link } from "react-router-dom";
-import { ServicoItem, UsuarioItem } from "./item/container";
 import {
   BsFillCarFrontFill,
   BsFillPeopleFill,
+  BsGear,
   BsReverseLayoutTextWindowReverse,
   BsX,
 } from "react-icons/bs";
+import {
+  Menu,
+  MenuItem,
+  Sidebar as ReactProSideBar,
+  SubMenu,
+} from "react-pro-sidebar";
+import { Link } from "react-router-dom";
+import { ServicoItem, UsuarioItem } from "./item/container";
 
 interface Props {
   colapsed: boolean;
-  logout: any;
+  logout(): void;
 }
 
-export function SlideBar({ colapsed, logout }: Props) {
+export function SideBar({ colapsed, logout }: Props) {
   return (
-    <Sidebar collapsed={colapsed} className="h-screen">
+    <ReactProSideBar collapsed={colapsed} className="h-screen">
       <Menu>
         <MenuItem
           component={<Link to="/home" />}
@@ -29,10 +35,11 @@ export function SlideBar({ colapsed, logout }: Props) {
         <SubMenu label="Usuario" icon={<BsFillPeopleFill />}>
           <UsuarioItem />
         </SubMenu>
+        <SubMenu label="Configuração" icon={<BsGear />}></SubMenu>
         <MenuItem onClick={logout} icon={<BsX />}>
           Sair
         </MenuItem>
       </Menu>
-    </Sidebar>
+    </ReactProSideBar>
   );
 }

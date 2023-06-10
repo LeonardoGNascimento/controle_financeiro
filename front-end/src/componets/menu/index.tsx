@@ -2,7 +2,7 @@ import { useLogin } from "../../pages/login/hook/useLogin";
 import { Usuario } from "../../_service/localStore/localStore";
 import { useMenu } from "./hook/useMenu";
 import { NavBar } from "./navBar";
-import { SlideBar } from "./slideBar";
+import { SideBar } from "./slideBar";
 import { Container, ContainerMenu } from "./style";
 
 interface Props {
@@ -15,7 +15,7 @@ export function Screen({ children }: Props) {
 
   return (
     <ContainerMenu>
-      <SlideBar colapsed={colapsed} logout={logout} />
+      <SideBar colapsed={colapsed} logout={logout} />
       <Container>
         <NavBar
           colapsed={colapsed}

@@ -26,7 +26,7 @@ function useLogin() {
     }
   }
 
-  async function logout() {
+  function logout(): void {
     localStorage.removeItem("@token");
     localStorage.removeItem("@email");
     localStorage.removeItem("@nome");
