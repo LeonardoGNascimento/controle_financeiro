@@ -11,6 +11,7 @@ import { cadastrarFinanceiroSchema } from "../../../../../hooks/financeiro/schem
 import { useFinanceiro } from "../../../../../hooks/financeiro/useFinanceiro";
 import { useFinanceiroDescricao } from "../../../../../hooks/financeiro/useFinanceiroDescricao";
 import { ModalCadastro } from "./container/ModalCadastro";
+import { toast } from "react-toastify";
 
 interface Props {
   id: string;
@@ -48,6 +49,14 @@ export function Financeiro({ id }: Props) {
     });
 
     await listar(id);
+  }
+
+  async function baixarComanda() {
+    const garantia = new Promise((res) => res(comanda(id)));
+
+    toast.promise(garantia, {
+      pending: "Aguarde",
+    });
   }
 
   async function handleExcluir() {
@@ -117,7 +126,7 @@ export function Financeiro({ id }: Props) {
               <Button className="mr-2" size="sm" onClick={() => setShow(true)}>
                 Lançar
               </Button>
-              <Button size="sm" onClick={() => comanda(id)}>
+              <Button size="sm" onClick={baixarComanda}>
                 Imprimir
               </Button>
             </Col>
