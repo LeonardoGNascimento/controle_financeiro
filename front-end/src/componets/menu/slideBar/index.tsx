@@ -12,7 +12,7 @@ import {
   SubMenu,
 } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
-import { ServicoItem, UsuarioItem } from "./item/container";
+import { FinanceiroItem, ServicoItem, UsuarioItem } from "./item/container";
 
 interface Props {
   colapsed: boolean;
@@ -35,7 +35,9 @@ export function SideBar({ colapsed, logout }: Props) {
         <SubMenu label="Usuario" icon={<BsFillPeopleFill />}>
           <UsuarioItem />
         </SubMenu>
-        <SubMenu label="Configuração" icon={<BsGear />}></SubMenu>
+        <SubMenu label="Configuração" icon={<BsGear />}>
+          <FinanceiroItem />
+        </SubMenu>
         <MenuItem onClick={logout} icon={<BsX />}>
           Sair
         </MenuItem>

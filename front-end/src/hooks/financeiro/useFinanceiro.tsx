@@ -43,11 +43,12 @@ export function useFinanceiro() {
 
       setFinanceiros(data);
     } catch (error: any) {
-      setErro(
-        error.response.data.message
-          ? error.response.data.message
-          : "Ocorreu um erro"
-      );
+      setFinanceiros([])
+      // setErro(
+      //   error.response.data.message
+      //     ? error.response.data.message
+      //     : "Ocorreu um erro"
+      // );
     } finally {
       setLoading(false);
     }
@@ -81,5 +82,21 @@ export function useFinanceiro() {
       setLoading(false);
     }
   }
-  return { listar, loading, financeiros, cadastrar, comanda };
+
+  async function excluir(id: string) {
+    try {
+      setLoading(true);
+      await api.delete(`/financeiro/${id}`);
+    } catch (error: any) {
+      setErro(
+        error.response.data.message
+          ? error.response.data.message
+          : "Ocorreu um erro"
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return { excluir, listar, loading, financeiros, cadastrar, comanda };
 }

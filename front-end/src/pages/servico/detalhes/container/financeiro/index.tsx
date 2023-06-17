@@ -1,30 +1,28 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { TableColumn } from "react-data-table-component";
 import { useForm } from "react-hook-form";
+import { Modal } from "../../../../../componets/modal";
 import { Table } from "../../../../../componets/table";
 import { formatarDinheiro } from "../../../../../core/utils/dinheiro";
 import { CadastrarFinanceiroCommand } from "../../../../../hooks/financeiro/command/cadastrarServico.command";
+import { cadastrarFinanceiroSchema } from "../../../../../hooks/financeiro/schema/cadastrarFinanceiro.schema";
 import { useFinanceiro } from "../../../../../hooks/financeiro/useFinanceiro";
 import { useFinanceiroDescricao } from "../../../../../hooks/financeiro/useFinanceiroDescricao";
 import { ModalCadastro } from "./container/ModalCadastro";
-import { cadastrarFinanceiroSchema } from "../../../../../hooks/financeiro/schema/cadastrarFinanceiro.schema";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 interface Props {
   id: string;
 }
 
 export function Financeiro({ id }: Props) {
-  const { listar, financeiros, cadastrar, comanda } = useFinanceiro();
+  const { excluir, listar, financeiros, cadastrar, comanda } = useFinanceiro();
+  const [show, setShow] = useState(false);
+  const [showExcluir, setShowExcluir] = useState(false);
+  const [excluirId, setExcluir] = useState<string>();
   const { listar: listarDescricao, financeiroDescricoes } =
     useFinanceiroDescricao();
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    listar(id);
-    listarDescricao();
-  }, []);
 
   const {
     register,
@@ -33,6 +31,11 @@ export function Financeiro({ id }: Props) {
   } = useForm<CadastrarFinanceiroCommand>({
     resolver: yupResolver(cadastrarFinanceiroSchema),
   });
+
+  useEffect(() => {
+    listar(id);
+    listarDescricao();
+  }, []);
 
   async function handleCadastrar({
     financeiroDescricaoId,
@@ -45,6 +48,13 @@ export function Financeiro({ id }: Props) {
     });
 
     await listar(id);
+  }
+
+  async function handleExcluir() {
+    excluirId && (await excluir(excluirId));
+    await listar(id);
+    setExcluir("");
+    setShowExcluir(false);
   }
 
   const columns: TableColumn<any>[] = [
@@ -63,10 +73,32 @@ export function Financeiro({ id }: Props) {
       selector: ({ valor }) => formatarDinheiro(valor),
       sortable: true,
     },
+    {
+      name: "Excluir",
+      selector: ({ id }) => (
+        <Button
+          onClick={() => {
+            setShowExcluir(true);
+            setExcluir(id);
+          }}
+        >
+          Excluir
+        </Button>
+      ),
+      sortable: true,
+    },
   ];
 
   return (
     <>
+      <Modal
+        show={showExcluir}
+        handleClose={() => setShowExcluir(!showExcluir)}
+      >
+        Essa ação é irreversível
+        <Button onClick={handleExcluir}>Confirmar</Button>
+      </Modal>
+
       <ModalCadastro
         errors={errors}
         setShow={setShow}
@@ -97,6 +129,7 @@ export function Financeiro({ id }: Props) {
         data={financeiros}
         paginationRowsPerPageOptions={[5, 10]}
         paginationPerPage={10}
+        pagination={true}
       />
     </>
   );

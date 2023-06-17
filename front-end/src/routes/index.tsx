@@ -4,6 +4,7 @@ import { ServicoRoute } from "../pages/servico/route";
 import { Home } from "../pages/home";
 import { Login } from "../pages/login";
 import { UsuarioRoute } from "../pages/usuario/routes";
+import { ConfiguracaoRoute } from "../pages/configuracao/routes";
 
 export function AppRouter() {
   return (
@@ -26,12 +27,19 @@ export function AppRouter() {
             </Private>
           }
         />
-
         <Route
           path="/usuario/*"
           element={
             <Private>
               <UsuarioRoute />
+            </Private>
+          }
+        />
+        <Route
+          path="/configuracao/*"
+          element={
+            <Private>
+              <ConfiguracaoRoute />
             </Private>
           }
         />

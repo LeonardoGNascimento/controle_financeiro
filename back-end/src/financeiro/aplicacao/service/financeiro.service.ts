@@ -8,7 +8,6 @@ import { CadastrarFinanceiroCommand } from 'src/financeiro/dominio/command/cadas
 import { Financeiro } from 'src/financeiro/dominio/entity/financeiro.entity';
 import { FinanceiroRepository } from 'src/financeiro/infra/repository/mysql/financeiro.repository';
 import { FinanceiroDescricaoService } from './financeiroDescricao.service';
-import { log } from 'console';
 import { DocumentoService } from 'src/core/documentos/documento.service';
 
 @Injectable()
@@ -76,5 +75,9 @@ export class FinanceiroService {
     } catch (e) {
       throw new HttpException(e.message, e.status);
     }
+  }
+
+  async exclui(id: number) {
+    return await this.financeiroRepository.excluir(id);
   }
 }

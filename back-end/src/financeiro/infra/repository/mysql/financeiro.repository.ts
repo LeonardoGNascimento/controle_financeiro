@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { log } from 'console';
 import { CadastrarFinanceiroCommand } from 'src/financeiro/dominio/command/cadastrarFinanceiro.command';
 import { Financeiro } from 'src/financeiro/dominio/entity/financeiro.entity';
-import { FinanceiroDescricao } from 'src/financeiro/dominio/entity/financeiroDescricao.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -63,5 +61,9 @@ export class FinanceiroRepository {
     } catch (e) {
       return false;
     }
+  }
+
+  async excluir(id: number) {
+    return await this.financeiroRepository.delete(id);
   }
 }

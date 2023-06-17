@@ -16,16 +16,13 @@ export function Table({
   pagination,
   noDataComponent,
   paginationRowsPerPageOptions,
-  paginationPerPage
+  paginationPerPage,
 }: Props) {
   const customStyles = {
     rows: {
       style: {
         minHeight: "50px",
       },
-    },
-    cells: {
-      style: {},
     },
   };
 
@@ -34,7 +31,7 @@ export function Table({
       <DataTable
         columns={columns}
         data={data}
-        pagination
+        pagination={pagination}
         paginationPerPage={paginationPerPage}
         paginationRowsPerPageOptions={paginationRowsPerPageOptions}
         customStyles={customStyles}

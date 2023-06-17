@@ -1,23 +1,24 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
+  Patch,
   Post,
   Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { JwtGuard } from 'src/core/auth/jwt.auth.guard';
+import { StreamBuffer } from 'src/core/documentos/streamBuffer';
 import { CadastrarFinanceiroCommand } from 'src/financeiro/dominio/command/cadastrarFinanceiro.command';
 import { Financeiro } from 'src/financeiro/dominio/entity/financeiro.entity';
 import { FinanceiroService } from '../service/financeiro.service';
-import { Readable } from 'stream';
-import { StreamBuffer } from 'src/core/documentos/streamBuffer';
-import { Response } from 'express';
 
 @Controller('financeiro')
-// @UseGuards(JwtGuard)
+@UseGuards(JwtGuard)
 export class FinanceiroController {
   constructor(public financeiroService: FinanceiroService) {}
 
@@ -44,5 +45,10 @@ export class FinanceiroController {
     const resultado = await this.financeiroService.comanda(servicoId);
 
     new StreamBuffer(resultado).pipe(res);
+  }
+
+  @Delete(':id')
+  exclui(@Param('id') id: number) {
+    return this.financeiroService.exclui(id);
   }
 }

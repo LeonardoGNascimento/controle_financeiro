@@ -9,7 +9,7 @@ export function useUsuario() {
   async function cadastro(cadastroUsuario: ICadastroUsuario) {
     try {
       setLoading(true);
-      const { data } = await api.post(`/usuarios`, cadastroUsuario);
+      const { data } = await api.post(`/usuario`, cadastroUsuario);
 
       return new HttpResponse(data, false);
     } catch (error: any) {
@@ -22,7 +22,7 @@ export function useUsuario() {
   async function listar() {
     try {
       setLoading(true);
-      const { data } = await api.get(`/usuarios`);
+      const { data } = await api.get(`/usuario`);
 
       return new HttpResponse(data, false);
     } catch (error: any) {

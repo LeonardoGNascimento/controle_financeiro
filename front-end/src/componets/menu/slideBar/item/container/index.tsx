@@ -26,3 +26,13 @@ export function UsuarioItem() {
     </>
   );
 }
+
+export function FinanceiroItem() {
+  return (
+    <>
+      <MenuItem component={<Link to="/configuracao/financeiro" />}>
+        Financeiro
+      </MenuItem>
+    </>
+  );
+}
