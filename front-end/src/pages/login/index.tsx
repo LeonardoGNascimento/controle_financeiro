@@ -43,7 +43,7 @@ export function Login() {
         <img className="w-full rounded-l-lg" src={loginImg} />
       </div>
       <div className="bg-gray-400 p-8 rounded-r -lg">
-        <h1 className="flex justify-center mb-12 text-white">Garagem 714</h1>
+        <h1 className="flex justify-center mb-12 text-white">Legana Tech</h1>
         <Form onSubmit={handleSubmit(handleLogin)}>
           <Form.Group controlId="email">
             <Input error={errors.email?.message}>
