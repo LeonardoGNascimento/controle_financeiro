@@ -1,6 +1,6 @@
 FROM node
 WORKDIR /app
 COPY . .
-RUN yarn
+RUN npm install
 EXPOSE 7000
-ENTRYPOINT yarn dev --host
+ENTRYPOINT npm run dev --host
