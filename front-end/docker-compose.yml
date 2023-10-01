@@ -9,7 +9,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 100M
+          memory: 300M
           cpus: '0.1'
     environment:
       CHOKIDAR_USEPOLLING: "true"
