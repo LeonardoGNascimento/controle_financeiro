@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "/financeiro/",
   "scripts": {
     "dev": "vite",
     "host": "vite --host",
