@@ -1,29 +1,16 @@
-# Use uma imagem de Node.js para criar a build
 FROM node as builder
-
-# Defina o diretório de trabalho dentro do contêiner
 WORKDIR /app
-
-# Copie o arquivo package.json e package-lock.json (ou yarn.lock) para o contêiner
 COPY package*.json ./
-
-# Instale as dependências
 RUN npm install
-
-# Copie os arquivos do projeto para o contêiner
 COPY . .
-
-# Execute o comando de build
 RUN npm run build
 
-# Use uma imagem de Nginx para servir a build otimizada
-FROM nginx:alpine
 
-# Copie os arquivos da build para o diretório de trabalho padrão do Nginx
+FROM nginx:1.23.2-alpine
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Exponha a porta 80
+RUN touch /var/run/nginx.pid
+RUN chown -R nginx:nginx /var/run/nginx.pid /usr/share/nginx/html /var/cache/nginx /var/log/nginx /etc/nginx/conf.d
+USER nginx
 EXPOSE 80
-
-# Comando de inicialização do Nginx
 CMD ["nginx", "-g", "daemon off;"]

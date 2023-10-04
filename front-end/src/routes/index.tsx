@@ -8,7 +8,7 @@ import { ConfiguracaoRoute } from "../pages/configuracao/routes";
 
 export function AppRouter() {
   return (
-    <BrowserRouter basename="/financeiro">
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />}></Route>
         <Route
