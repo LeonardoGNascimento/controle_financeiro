@@ -6,8 +6,7 @@ services:
       context: .
       dockerfile: dockerfile.prod
     ports:
-      - 8089:80
-      - 8090:80
+      - 7000:80
     deploy:
       resources:
         limits:
